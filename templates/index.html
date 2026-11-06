@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Sales System</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 25px;
+            background: #f3f6fa;
+            color: #172b4d;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .container {
+            max-width: 1150px;
+            margin: auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-bottom: 30px;
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        header p {
+            color: #718096;
+        }
+
+        .status {
+            background: #dcfce7;
+            color: #15803d;
+            padding: 9px 14px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            padding: 22px;
+        }
+
+        .stat-card p {
+            color: #718096;
+            font-size: 14px;
+        }
+
+        .stat-card h2 {
+            margin: 0;
+            font-size: 26px;
+        }
+
+        .green {
+            color: #16a34a;
+        }
+
+        .red {
+            color: #dc2626;
+        }
+
+        .toolbar {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            margin-bottom: 18px;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #e2e8f0;
+            border-radius: 9px;
+            background: white;
+            font: inherit;
+        }
+
+        input {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .table-card {
+            background: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .table-heading {
+            padding: 20px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .table-heading h2 {
+            margin: 0;
+            font-size: 18px;
+        }
+
+        .table-scroll {
+            overflow-x: auto;
+        }
+
+        table {
+            width: 100%;
+            min-width: 750px;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 14px;
+        }
+
+        th {
+            background: #f8fafc;
+            color: #718096;
+        }
+
+        tbody tr:hover {
+            background: #f8fafc;
+        }
+
+        .stock {
+            padding: 6px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .good {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .medium {
+            background: #ffedd5;
+            color: #c2410c;
+        }
+
+        .low {
+            background: #fee2e2;
+            color: #b91c1c;
+        }
+
+        .empty {
+            padding: 30px;
+            text-align: center;
+            color: #718096;
+        }
+
+        footer {
+            text-align: center;
+            color: #718096;
+            font-size: 13px;
+            margin-top: 25px;
+        }
+
+        @media(max-width: 850px) {
+            .stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media(max-width: 500px) {
+            body {
+                padding: 15px;
+            }
+
+            .stats {
+                gap: 10px;
+            }
+
+            .stat-card {
+                padding: 14px;
+            }
+
+            .stat-card h2 {
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <div>
+            <h1>Inventory Sales System</h1>
+            <a href="/chart" class="chart-button">
+    View Stock Graph
+</a>
+            <p>Manage and monitor your inventory stock.</p>
+        </div>
+
+        <div class="status">● MySQL Connected</div>
+    </header>
+
+    <section class="stats">
+
+        <div class="stat-card">
+            <p>Total Products</p>
+            <h2>{{ total_products }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Stock Value</p>
+            <h2 class="green">₹{{ "%.2f"|format(stock_value) }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Total Units in Stock</p>
+            <h2>{{ total_units }}</h2>
+        </div>
+
+        <div class="stat-card">
+            <p>Low Stock Products</p>
+            <h2 class="red">{{ low_stock }}</h2>
+        </div>
+
+    </section>
+
+    <div class="toolbar">
+
+        <input
+            type="search"
+            id="search"
+            placeholder="Search product name or ID..."
+        >
+
+        <select id="category">
+            <option value="All">All Categories</option>
+
+            {% for category in categories %}
+                <option value="{{ category }}">{{ category }}</option>
+            {% endfor %}
+        </select>
+
+        <select id="sort">
+            <option value="id">Sort by ID</option>
+            <option value="quantity">Lowest Stock</option>
+            <option value="price">Highest Price</option>
+            <option value="name">Product Name</option>
+        </select>
+
+    </div>
+
+    <div class="table-card">
+
+        <div class="table-heading">
+            <details class="add-product-box">
+    <summary>+ Add Product</summary>
+
+    <form action="/add_product" method="POST">
+
+        <input type="text"
+               name="product_id"
+               placeholder="Product ID (P031)"
+               required>
+
+        <input type="text"
+               name="name"
+               placeholder="Product Name"
+               required>
+
+        <input type="text"
+               name="category"
+               placeholder="Category"
+               required>
+
+        <input type="number"
+               name="price"
+               placeholder="Price"
+               step="0.01"
+               min="0"
+               required>
+
+        <input type="number"
+               name="quantity"
+               placeholder="Quantity"
+               min="0"
+               required>
+
+        <button type="submit">Save Product</button>
+
+    </form>
+</details>
+            <h2>Product Inventory</h2>
+        </div>
+
+        <div class="table-scroll">
+
+            <table>
+
+                <thead>
+                    <tr>
+                        <th>Product ID</th>
+                        <th>Product Name</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Quantity</th>
+                        <th>Stock Status</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+
+                <tbody id="productTable">
+
+                    {% for product in products %}
+
+                    <tr
+                        data-id="{{ product.id }}"
+                        data-name="{{ product.name }}"
+                        data-category="{{ product.category }}"
+                        data-price="{{ product.price }}"
+                        data-quantity="{{ product.quantity }}"
+                    >
+
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.name }}</td>
+                        <td>{{ product.category }}</td>
+                        <td>₹{{ "%.2f"|format(product.price) }}</td>
+                        <td>{{ product.quantity }}</td>
+
+                        <td>
+                            {% if product.quantity <= 5 %}
+                                <span class="stock low">Low Stock</span>
+                            {% elif product.quantity <= 15 %}
+                                <span class="stock medium">Medium</span>
+                            {% else %}
+                                <span class="stock good">In Stock</span>
+                            {% endif %}
+                        <td>
+    <details>
+        <summary style="cursor:pointer; color:blue;">
+            Edit
+        </summary>
+
+        <form action="{{ url_for('update_product_web', product_id=product.id) }}"
+              method="POST">
+
+            <input type="text" name="name"
+                   value="{{ product.name }}" required>
+
+            <input type="text" name="category"
+                   value="{{ product.category }}" required>
+
+            <input type="number" name="price"
+                   value="{{ product.price }}"
+                   step="0.01" min="0" required>
+
+            <input type="number" name="quantity"
+                   value="{{ product.quantity }}"
+                   min="0" required>
+
+            <button type="submit">Update Product</button>
+        </form>
+    </details>
+</td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        <div class="empty" id="emptyMessage" hidden>
+            No products found.
+        </div>
+
+    </div>
+
+    <footer>
+        Inventory Sales System | Python | Flask | MySQL
+    </footer>
+
+</div>
+
+<script>
+
+const searchInput = document.getElementById("search");
+const categorySelect = document.getElementById("category");
+const sortSelect = document.getElementById("sort");
+const productTable = document.getElementById("productTable");
+const emptyMessage = document.getElementById("emptyMessage");
+
+function filterProducts() {
+
+    const search = searchInput.value.toLowerCase().trim();
+    const category = categorySelect.value;
+
+    const rows = Array.from(productTable.rows);
+
+    let visibleCount = 0;
+
+    rows.forEach(function(row) {
+
+        const id = row.dataset.id.toLowerCase();
+        const name = row.dataset.name.toLowerCase();
+        const rowCategory = row.dataset.category;
+
+        const matchesSearch =
+            id.includes(search) || name.includes(search);
+
+        const matchesCategory =
+            category === "All" || rowCategory === category;
+
+        const visible = matchesSearch && matchesCategory;
+
+        row.style.display = visible ? "" : "none";
+
+        if (visible) {
+            visibleCount++;
+        }
+
+    });
+
+    emptyMessage.hidden = visibleCount !== 0;
+}
+
+function sortProducts() {
+
+    const rows = Array.from(productTable.rows);
+    const sort = sortSelect.value;
+
+    rows.sort(function(a, b) {
+
+        if (sort === "quantity") {
+            return Number(a.dataset.quantity) -
+                   Number(b.dataset.quantity);
+        }
+
+        if (sort === "price") {
+            return Number(b.dataset.price) -
+                   Number(a.dataset.price);
+        }
+
+        if (sort === "name") {
+            return a.dataset.name.localeCompare(b.dataset.name);
+        }
+
+        return a.dataset.id.localeCompare(b.dataset.id);
+    });
+
+    rows.forEach(function(row) {
+        productTable.appendChild(row);
+    });
+
+    filterProducts();
+}
+
+searchInput.addEventListener("input", filterProducts);
+
+categorySelect.addEventListener("change", filterProducts);
+
+sortSelect.addEventListener("change", sortProducts);
+
+filterProducts();
+
+</script>
+
+</body>
+</html>
