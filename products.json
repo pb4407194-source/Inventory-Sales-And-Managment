@@ -1,0 +1,212 @@
+[
+    {
+        "id": "P001",
+        "name": "Rice",
+        "category": "Grocery",
+        "price": 60,
+        "quantity": 400
+    },
+    {
+        "id": "P002",
+        "name": "Wheat Flour",
+        "category": "Grocery",
+        "price": 200.0,
+        "quantity": 500
+    },
+    {
+        "id": "P004",
+        "name": "Sugar",
+        "category": "Grocery",
+        "price": 50,
+        "quantity": 890
+    },
+    {
+        "id": "P005",
+        "name": "Salt",
+        "category": "Grocery",
+        "price": 25,
+        "quantity": 470
+    },
+    {
+        "id": "P006",
+        "name": "Milk",
+        "category": "Dairy",
+        "price": 30,
+        "quantity": 380
+    },
+    {
+        "id": "P007",
+        "name": "Butter",
+        "category": "Dairy",
+        "price": 55,
+        "quantity": 189
+    },
+    {
+        "id": "P008",
+        "name": "Cheese",
+        "category": "Dairy",
+        "price": 100,
+        "quantity": 300
+    },
+    {
+        "id": "P009",
+        "name": "Curd",
+        "category": "Dairy",
+        "price": 40,
+        "quantity": 400
+    },
+    {
+        "id": "P010",
+        "name": "Paneer",
+        "category": "Dairy",
+        "price": 90,
+        "quantity": 700
+    },
+    {
+        "id": "P011",
+        "name": "Bread",
+        "category": "Bakery",
+        "price": 40,
+        "quantity": 700
+    },
+    {
+        "id": "P012",
+        "name": "Cake",
+        "category": "Bakery",
+        "price": 250,
+        "quantity": 370
+    },
+    {
+        "id": "P013",
+        "name": "Bun",
+        "category": "Bakery",
+        "price": 20,
+        "quantity": 25
+    },
+    {
+        "id": "P014",
+        "name": "Cookies",
+        "category": "Bakery",
+        "price": 80,
+        "quantity": 20
+    },
+    {
+        "id": "P015",
+        "name": "Donut",
+        "category": "Bakery",
+        "price": 50,
+        "quantity": 14
+    },
+    {
+        "id": "P016",
+        "name": "Biscuit",
+        "category": "Food",
+        "price": 20,
+        "quantity": 189
+    },
+    {
+        "id": "P017",
+        "name": "Noodles",
+        "category": "Food",
+        "price": 25,
+        "quantity": 500
+    },
+    {
+        "id": "P018",
+        "name": "Chips",
+        "category": "Food",
+        "price": 20,
+        "quantity": 298
+    },
+    {
+        "id": "P019",
+        "name": "Chocolate",
+        "category": "Food",
+        "price": 50,
+        "quantity": 25
+    },
+    {
+        "id": "P020",
+        "name": "Ketchup",
+        "category": "Food",
+        "price": 90,
+        "quantity": 400
+    },
+    {
+        "id": "P021",
+        "name": "Soap",
+        "category": "Personal Care",
+        "price": 35,
+        "quantity": 200
+    },
+    {
+        "id": "P022",
+        "name": "Shampoo",
+        "category": "Personal Care",
+        "price": 120,
+        "quantity": 400
+    },
+    {
+        "id": "P023",
+        "name": "Toothpaste",
+        "category": "Personal Care",
+        "price": 90,
+        "quantity": 16
+    },
+    {
+        "id": "P024",
+        "name": "Face Wash",
+        "category": "Personal Care",
+        "price": 150,
+        "quantity": 450
+    },
+    {
+        "id": "P025",
+        "name": "Hand Wash",
+        "category": "Personal Care",
+        "price": 100,
+        "quantity": 13
+    },
+    {
+        "id": "P026",
+        "name": "Detergent",
+        "category": "Household",
+        "price": 110,
+        "quantity": 10
+    },
+    {
+        "id": "P027",
+        "name": "Dishwash Liquid",
+        "category": "Household",
+        "price": 85,
+        "quantity": 200
+    },
+    {
+        "id": "P028",
+        "name": "Floor Cleaner",
+        "category": "Household",
+        "price": 120,
+        "quantity": 480
+    },
+    {
+        "id": "P029",
+        "name": "Tea",
+        "category": "Beverage",
+        "price": 180,
+        "quantity": 150
+    },
+    {
+        "id": "P030",
+        "name": "Coffee",
+        "category": "Beverage",
+        "price": 250,
+        "quantity": 390
+    },
+    {
+        "id": "P003",
+        "name": "Oil",
+        "category": "Groceery",
+        "price": 300.0,
+        "quantity": 300
+    }
+]
